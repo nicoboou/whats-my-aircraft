@@ -6,6 +6,7 @@ export const App = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [image, setImage] = useState(null);
   const [imageAnalysis, setImageAnalysis] = useState(null);
+  const [imageAnalysisConfidence, setImageAnalysisConfidence] = useState(null);
 
   const fileSelectedHandler = (event) => {
     console.log(event.target.files[0]);
@@ -36,8 +37,10 @@ export const App = () => {
         },
       }).then((response) => {
         setImageAnalysis(response.data[0].name);
-        console.log("Results");
-        console.log(response.data[0].name);
+        setImageAnalysisConfidence(
+          //response.data[0].confidence
+          Math.round(response.data[0].confidence * 100)
+        );
       });
     } catch (error) {
       console.log(error);
@@ -50,8 +53,89 @@ export const App = () => {
           <div className="title">what's-my-aircraft</div>
         </div>
         <div className="results">
-          <img className="image" src={image} />
-          <div className="analysis">{imageAnalysis}</div>
+          {selectedFile ? (
+            <img className="image" src={image} />
+          ) : (
+            <div className="image-placeholder">Select an image</div>
+          )}
+          {imageAnalysis ? (
+            <div className="predictions">
+              <div className="aircraft-name-prediction-placeholder">
+                <div
+                  className="aircraft-name"
+                  style={{ display: "flex", fontWeight: 500, padding: "0.5vh" }}
+                >
+                  Drone Model:{" "}
+                </div>
+                <div className="analysis">{imageAnalysis}</div>
+              </div>
+              <div className="aircraft-confidence-prediction-placeholder">
+                <div
+                  className="aircraft-confidence"
+                  style={{ display: "flex", fontWeight: 500, padding: "1vh" }}
+                >
+                  Confidence:{" "}
+                </div>
+                <div
+                  className="analysis"
+                  style={{
+                    display: "flex",
+                    fontWeight: 100,
+                    alignContent: "center",
+                    flexWrap: "nowrap",
+                  }}
+                >
+                  {imageAnalysisConfidence + "%"}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="predictions">
+              <div className="aircraft-name-prediction-placeholder">
+                <div
+                  className="aircraft-name"
+                  style={{
+                    display: "flex",
+                    fontWeight: 500,
+                    fontsize: "100%",
+                    flexWrap: "nowrap",
+                    padding: "0.5vh",
+                  }}
+                >
+                  {"Drone Model: "}
+                </div>
+                <div
+                  className="analysis"
+                  style={{
+                    display: "flex",
+                    fontWeight: 100,
+                    alignContent: "center",
+                  }}
+                >
+                  waiting for upload ...
+                </div>
+              </div>
+              <div className="aircraft-confidence-prediction-placeholder">
+                <div
+                  className="aircraft-confidence"
+                  style={{ display: "flex", fontWeight: 500, padding: "1vh" }}
+                >
+                  {"Confidence: "}
+                </div>
+                <div
+                  className="analysis"
+                  style={{
+                    display: "flex",
+                    fontWeight: 100,
+                    alignContent: "center",
+                    flexWrap: "nowrap",
+                  }}
+                >
+                  waiting for upload ...
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <div className="uploader">
           <input type="file" onChange={fileSelectedHandler} />

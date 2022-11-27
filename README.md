@@ -13,7 +13,7 @@ Simply clone the repo and launch the multiple containers locally to test the web
 1. Access the web app on your local machine, accessible on the port 3000 via `localhost:3000`
 2. Select a 640x640 image using the file selecter, upload the image & get instant detection result !
 
-<img src="https://github.com/nicoboou/whats-my-aircraft/blob/master/whatsmydrone.gif" width="250" height="250"/>
+<img src="https://github.com/nicoboou/whats-my-aircraft/blob/master/whatsmydrone.gif" width="800" height="800"/>
 
 ## Stack
 
